@@ -1,5 +1,9 @@
+
 <?php
 
+require 'config/config.php';
+
+require 'views/partials/header.php';
 
 /* 
 
@@ -22,3 +26,6 @@ token
 token_validity
 
  */
+var_dump($_SESSION);
+
+require 'views/partials/footer.php';
