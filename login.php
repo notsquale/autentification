@@ -10,13 +10,14 @@
 require 'config/config.php';
 require 'views/partials/header.php';
 
-$email = $password = null;
+$errors = $email = $password = null;
 
 if(!empty($_POST)) {
     $email = sanitize($_POST['email']);
     $password = sanitize($_POST['password']);
 
-    $query = $db->prepare('SELECT * FROM users WHERE email = :email OR pseudo = :email');
+    $query = $db->prepare('SELECT * FROM users 
+    WHERE email = :email OR pseudo = :email');
     $query->execute(['email' => $email]);
     $user = $query->fetch();
 
@@ -27,18 +28,19 @@ if(!empty($_POST)) {
 
         if($isValid)
         {
-            $_session['user'] = [
+            $_SESSION['user'] = [//Super globales en upper case  sinon bug
                 'pseudo' =>$user['pseudo'],
                 'email' =>$user['email'],
             ];
+            redirect(); //renvoie vers le home
         }
         else{
-            $error ='mot de pass invalide';
+            $errors ='mot de pass invalide hahaha';
         }
 
     }
     else{
-        $error ='mot de pass invalide';//pour qu on ne sache pas si le loguin existe
+        $errors ='mot de pass invalide hohoho';//pour qu on ne sache pas si le loguin existe
     }
     
     
@@ -46,17 +48,20 @@ if(!empty($_POST)) {
 
 ?>
 <div class="container">
+    <?= $errors; ?>
+
+
     <form action="" method="POST">
-        <label for="">Email</label>
+        <label for="email">Email</label>
         <input type="email" name="email" id="">
 
-        <label for="">Pseudo</label>
-        <input type="text" name="pseudo" id="">
+        <!-- <label for="pseudo">Pseudo</label>
+        <input type="text" name="pseudo" id=""> -->
 
-        <label for="">Mot de passe</label>
+        <label for="password">Mot de passe</label>
         <input type="password" name="password" id="">
 
-        <button class="btn btn-primary">Envoyer</button>
+        <button class="btn btn-primary">connexion</button>
     </form>
 </div>
 

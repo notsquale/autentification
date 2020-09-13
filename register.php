@@ -15,7 +15,7 @@ if(!empty($_POST))
 {
     foreach($_POST as $field => $value)
     {
-        $$field = sanitize($value); // double $$ syntaxe racourcie 
+        $$field = sanitize($value); // double $$ syntaxe racourcie du bloc commenté en dessous
         var_dump($$field);
     }
 
@@ -37,15 +37,15 @@ if(!empty($_POST))
         $errors['pseudo'] = 'pseudo non valide' ; 
     }
 
-    if(preg_match('/(.){8,}/', $password)) {
+    if(!preg_match('/(.){8,}/', $password)) {
         $errors['password'] = 'mot de passe trop court';
     }
 
-    if(preg_match('/[0-9]+/', $password)) {
+    if(!preg_match('/[0-9]+/', $password)) {
         $errors['password'] = 'mot de passe doit contenir au moin 1 chiffre';
     }
 
-    if(preg_match('/[^a-zA-Z0-9 ]+/', $password)) {
+    if(!preg_match('/[^a-zA-Z0-9 ]+/', $password)) {
         $errors['password'] = 'au moins un caractere special';
     }
     if($password !== $cfPassword) {
@@ -66,22 +66,31 @@ if(!empty($_POST))
 
 
 
-    $query = $db->prepare( "INSERT INTO user (email,pseudo,password)
-    VALUES (:email, :pseudo, :password)");
+    var_dump($errors);
+
+   
 
     
     if(empty($errors)) 
     {
 
-            var_dump($errors);
+            
+            $query = $db->prepare( "INSERT INTO users ( email, pseudo, password ) VALUES (:email, :pseudo, :password)");
+
+
+
 
             $password = password_hash($password, PASSWORD_DEFAULT);
+
+            echo $password;
             $query->execute([
             'email' => $email,
             'pseudo' => $pseudo,
             'password' => $password,
         ]);
-        echo "INSERT INTO user (email, pseudo, password)
+
+
+        echo "INSERT INTO users (email, pseudo, password)
             VALUES ($email, $pseudo, $password)";
 
 

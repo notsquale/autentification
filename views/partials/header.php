@@ -18,8 +18,11 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="<?=$baseUrl; ?>/login.php">Connection</a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item ">
                         <a class="nav-link" href="<?=$baseUrl; ?>/register.php">Inscription</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="<?=$baseUrl; ?>/forget.php">Mot de passe oublié</a>
                     </li>
 
                     <?php if($user = isLogged()) { ?>

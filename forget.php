@@ -17,7 +17,7 @@
 require 'config/config.php';
 require 'views/partials/header.php';
 
-$email = $password = null;
+$email = $error = null;
 
 if(!empty($_POST)) {
     $email = sanitize($_POST['email']);
@@ -30,17 +30,20 @@ if(!empty($_POST)) {
     {
         $token = bin2hex(random_bytes(32));
         $expireAt = (new DateTime())->add(new DateInterval('PT1H'));
-        var_dump($token);
-        var_dump($expireAt);
-        $query = $db->prepare('INSERT INTO reset_token(token , expired_at, user_id)
-        VALUES(:token, :expired_at, :user_id)');
+        //var_dump($token);
+        //var_dump($expireAt);
+        $query = $db->prepare('INSERT INTO reset_token(token , expired_at, id_user)
+        VALUES(:token, :expired_at, :id_user)');
         $query->execute([
             'token' => $token,
-            'expired_at' => $expiredAt->format('Y-m-d'),
-            'expired_at' => $user['id'],
+            'expired_at' => $expireAt->format('Y-m-d H:i:s'),
+            'id_user' => $user['id'],
         ]);
 
-        echo $baseUrl.'/reset.php?token='.$token;
+        //echo $baseUrl.'/reset.php?token='.$token;
+        $reset = '/reset.php?token='.$token;
+
+        redirect($reset);
 
     }
     else{
@@ -55,6 +58,8 @@ if(!empty($_POST)) {
 
 ?>
 <div class="container">
+
+    <?= $error; ?>
     <form action="" method="POST">
         <label for="">entrez votre email</label>
         <input type="email" name="email" id="">

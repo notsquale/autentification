@@ -5,6 +5,11 @@ require 'config/config.php';
 
 require 'views/partials/header.php';
 
+require 'views/partials/footer.php';
+
+
+
+
 /* 
 
 4 pages:
@@ -26,6 +31,4 @@ token
 token_validity
 
  */
-var_dump($_SESSION);
-
-require 'views/partials/footer.php';
+//var_dump($_SESSION);
